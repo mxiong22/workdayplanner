@@ -3,65 +3,58 @@ var todayDate = moment().format('dddd,MMMM Do');
 $('#currentDay').text(todayDate);
 
 //container weekly scheduler
-console.log($(".container").children("row"))
-var computerTime = today.format("HH");
-console.log("The Time is:", computerTime);
 
+let saveBtn = document.getElementsByClassName("saveBtn")
+function addListener(){
+for(let i = 0; i < saveBtn.length; i++){
+    console.log(saveBtn[i])
+    saveBtn[i].addEventListener('click',function(event){
+        event.preventDefault()
+       //check tag name, change text area value, and time value https://www.w3schools.com/jsref/prop_element_tagname.asp
 
-$(document).ready(function () {
-  $(".saveBtn").on("click", function () {
-    var inputText = $(this).siblings("description").val();
-    var blockTime = $(this).parent().attr("id");
-    localStorage.setItem(blockTime, inputText);
-    $("#saveAck").removeClass("hidden")
-    setTimeout(showAck, 5000);
-
-  })
-
-  function showAck() {
-    $("#saveAck").addClass("hidden");
-
-  }
-
-
-  function setBlockColor() {
-    $(".row").each(function () {
-      var currentHour = parseInt($(this).attr("id").split("current-time")[0]);
-      console.log("computer time", computerTime)
-      console.log("block time", currentHour)
-
-      if (computerTime < currentHour) {
-        $(this).addClass("past");
-        $(this).removeClass("futire");
-        $(this).removeClass("present");
-
-      }
-
-      else if (computerTime === currentHour) {
-        $(this).addClass("past");
-        $(this).removeClass("futire");
-        $(this).removeClass("present");
-      }
-
-      else {
-        $(this).addClass("past");
-        $(this).removeClass("futire");
-        $(this).removeClass("present");
-      }
+        let textAreaValue = event.target.previousElementSibling.value;
+        let timeValue = event.target.previousElementSibling.parentElement.getAttribute('id')
+        console.log(timeValue)
+        console.log(textAreaValue)
+        saveData(timeValue,textAreaValue)
     })
+}
 
-  }
+}
 
-setBlockColor(); 
+function saveData (time,text) {
+let localStorageData = localStorage.getItem('schedule'); 
+let jsonData= JSON.parse(localStorageData)
+let scheduleObj={
+    key:time, 
+    value:text
+}
+if (jsonData === null) {
+    jsonData = [];
 
-})
+    jsonData.push(scheduleObj);
 
-$("#9 .description").val(localStorage.getItem("#9"));
-$("#10 .description").val(localStorage.getItem("#10"));
-$("#11 .description").val(localStorage.getItem("#11"));
-$("#12 .description").val(localStorage.getItem("#12"));
-$("#1 .description").val(localStorage.getItem("#1"));
-$("#2 .description").val(localStorage.getItem("#2"));
-$("#3 .description").val(localStorage.getItem("#3"));
-$("#4 .description").val(localStorage.getItem("#4"));
-$("#5 .description").val(localStorage.getItem("#5"));
+}
+else {
+    jsonData.push (scheduleObj)
+}
+localStorage.setItem('schedule', JSON.stringify(jsonData))
+}
+
+function getData (){
+    let localStorageData=localStorage.getItem('schedule');
+    let jsonData= JSON.parse(localStorageData)
+    if (jsonData!=null){
+        for (let i=0; i < jsonData.length; i++){
+            let {key, value}= jsonData[i];
+            let targetElement=document.getElementById(`${key}`).children[1]
+            console.log(targetElement)
+            targetElement.value=value
+        
+
+        }
+    }
+}
+
+getData()
+addListener()

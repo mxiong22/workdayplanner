@@ -9,7 +9,8 @@ None required
 ## Usage 
 Website link: https://mxiong22.github.io/workdayplanner/
 
-<img width="1928" alt="workdayplanner" src="https://user-images.githubusercontent.com/107875628/193734701-7ad90c43-55ad-4475-bed7-b162514cf3d6.png">
 
 
+
+![2022-12-23 (1)](https://user-images.githubusercontent.com/107875628/209416078-33c3604d-d08a-4e32-83d1-6add2c290825.png)
 
